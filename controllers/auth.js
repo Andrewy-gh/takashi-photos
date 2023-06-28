@@ -25,7 +25,9 @@ authRouter.get(
       process.env.SECRET,
       { expiresIn: 60 * 60 }
     );
-    response.cookie('jwtPortfolioApp', token);
+    response.cookie('jwtPortfolioApp', token, {
+      domain: 'https://takashi-photos.onrender.com',
+    });
     response.status(200).redirect(process.env.CLIENT_URL);
   }
 );
