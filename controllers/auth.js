@@ -25,6 +25,7 @@ authRouter.get(
       process.env.SECRET,
       { expiresIn: 60 * 60 }
     );
+
     response.cookie('jwtPortfolioApp', token, {
       httpOnly: true,
       secure: true,
