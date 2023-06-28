@@ -27,9 +27,8 @@ authRouter.get(
     );
 
     response.cookie('jwtPortfolioApp', token, {
-      httpOnly: true,
       secure: true,
-      sameSite: 'None',
+      sameSite: 'Lax',
       maxAge: 60 * 60 * 1000,
       domain: 'takashi-photos.onrender.com',
     });
