@@ -15,8 +15,8 @@ authRouter.get(
   (request, response) => {
     const { id, displayName } = request.user;
     // Only allows admin to log in
-    if (id !== process.env.ADMIN_ID)
-      return response.status(401).json({ error: 'unauthorized user' });
+    // if (id !== process.env.ADMIN_ID)
+    //   return response.status(401).json({ error: 'unauthorized user' });
     const user = { id, displayName };
     const token = jwt.sign(
       {
