@@ -30,7 +30,7 @@ authRouter.get(
       secure: true,
       sameSite: 'None',
       maxAge: 60 * 60 * 1000,
-      domain: 'https://takashi-photos.onrender.com',
+      domain: 'takashi-photos.onrender.com',
     });
     response.status(200).redirect(process.env.CLIENT_URL);
   }
