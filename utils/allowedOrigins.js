@@ -1,7 +1,3 @@
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://takashi-photos.onrender.com',
-  'https://takashi-photos-api.onrender.com',
-];
+const allowedOrigins = ['https://takashi-photos.onrender.com'];
 
 module.exports = allowedOrigins;

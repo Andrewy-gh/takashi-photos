@@ -2,10 +2,13 @@ const logger = require('./logger');
 const jwt = require('jsonwebtoken');
 
 const requestLogger = (req, res, next) => {
-  logger.info('Method:', req.method);
-  logger.info('Path:  ', req.path);
-  logger.info('Body:  ', req.body);
-  logger.info('---');
+  // prevents logging of user information
+  if (req.path !== '/login') {
+    logger.info('Method:', req.method);
+    logger.info('Path:  ', req.path);
+    logger.info('Body:  ', req.body);
+    logger.info('---');
+  }
   next();
 };
 
@@ -21,8 +24,8 @@ const userExtractor = (req, res, next) => {
   const token = req.token;
   if (token) {
     const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (decodedToken.user.id) {
-      req.user = decodedToken.user.id;
+    if (decodedToken.id) {
+      req.user = decodedToken.id;
     }
   }
   next();
@@ -44,11 +47,6 @@ const errorHandler = (error, req, res, next) => {
       error: 'invalid token',
     });
   } else if (error.name === 'TokenExpiredError') {
-    res.clearCookie('jwtPortfolioApp', {
-      httpOnly: true,
-      sameSite: 'None',
-      secure: true,
-    });
     return res.status(401).json({
       error: 'token expired',
     });
