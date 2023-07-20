@@ -27,12 +27,13 @@ app.use(express.static('dist'));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-app.use('/cloudinary', cloudinaryRouter);
-app.use('/login', loginRouter);
+app.use('/api/cloudinary', cloudinaryRouter);
+app.use('/auth', loginRouter);
 app.use('/user', userRouter);
-app.use('/imageOrder', imageOrderRouter);
-app.use(middleware.tokenExtractor);
-app.use('/images', middleware.userExtractor, imageRouter);
+app.use('/api/imageOrder', imageOrderRouter);
+app.use('/api/images', require('./routes/images'));
+// app.use(middleware.tokenExtractor);
+// app.use('/images', middleware.userExtractor, imageRouter);
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
