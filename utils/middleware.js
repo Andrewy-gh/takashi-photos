@@ -23,33 +23,12 @@ const verifyJWT = (req, res, next) => {
       console.log('invalid token', err);
       return res.sendStatus(403); //invalid token
     }
-    // Check if the decoded user ID is the admin ID (process.env.ADMIN_ID)
     if (decoded.id !== process.env.ADMIN_ID) {
       return res.sendStatus(401);
     }
-    // req.user = decoded.id;
     next();
   });
 };
-
-// const tokenExtractor = (req, res, next) => {
-//   const authorization = req.get('authorization');
-//   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-//     req.token = authorization.substring(7);
-//   }
-//   next();
-// };
-
-// const userExtractor = (req, res, next) => {
-//   const token = req.token;
-//   if (token) {
-//     const decodedToken = jwt.verify(token, process.env.SECRET);
-//     if (decodedToken.id) {
-//       req.user = decodedToken.id;
-//     }
-//   }
-//   next();
-// };
 
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' });
@@ -78,8 +57,6 @@ const errorHandler = (error, req, res, next) => {
 module.exports = {
   requestLogger,
   verifyJWT,
-  // tokenExtractor,
-  // userExtractor,
   unknownEndpoint,
   errorHandler,
 };
