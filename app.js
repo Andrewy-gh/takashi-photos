@@ -11,6 +11,7 @@ const imageOrderRouter = require('./controllers/imageOrder');
 const userRouter = require('./controllers/user');
 const middleware = require('./utils/middleware');
 const logger = require('./utils/logger');
+const path = require('path');
 const mongoose = require('mongoose');
 
 mongoose
@@ -34,5 +35,8 @@ app.use('/api/imageOrder', imageOrderRouter);
 app.use('/api/images', require('./routes/images'));
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 module.exports = app;
