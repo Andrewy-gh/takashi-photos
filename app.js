@@ -6,7 +6,6 @@ const cors = require('cors');
 const corsOptions = require('./utils/corsOptions');
 const loginRouter = require('./controllers/login');
 const cloudinaryRouter = require('./controllers/cloudinary');
-const imageRouter = require('./controllers/image');
 const imageOrderRouter = require('./controllers/imageOrder');
 const userRouter = require('./controllers/user');
 const middleware = require('./utils/middleware');
