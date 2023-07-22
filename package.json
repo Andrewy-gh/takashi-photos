@@ -1,5 +1,5 @@
 {
-  "name": "takashi-photos-api",
+  "name": "takashi-photos",
   "version": "1.0.0",
   "description": "Backend for Takashi's photography portfolio website.",
   "main": "index.js",
