@@ -25,7 +25,6 @@ mongoose
 app.use(cors(corsOptions));
 app.use(express.static('dist'));
 app.use(express.json());
-app.use(middleware.requestLogger);
 
 app.use('/api/cloudinary', cloudinaryRouter);
 app.use('/auth', loginRouter);
@@ -35,7 +34,6 @@ app.use('/api/images', require('./routes/images'));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
-app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
 module.exports = app;

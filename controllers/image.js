@@ -36,7 +36,7 @@ const addNewImages = async (req, res) => {
   res.status(201).json({
     success: true,
     message: 'Successfully uploaded',
-    images: savedImages,
+    data: savedImages,
   });
 };
 
@@ -46,7 +46,11 @@ const updateImageOrder = async (req, res) => {
   const imageOrder = await ImageOrder.findOne();
   imageOrder.order = ids;
   await imageOrder.save();
-  res.status(200).json(updatedOrder);
+  res.status(200).json({
+    success: true,
+    message: 'Image order updated',
+    data: updatedOrder,
+  });
 };
 
 const updateImageDetails = async (req, res) => {
@@ -54,7 +58,11 @@ const updateImageDetails = async (req, res) => {
     new: true,
   });
   await updatedImage.save();
-  res.status(200).json(updatedImage);
+  res.status(200).json({
+    success: true,
+    message: 'Image details updated',
+    data: updatedImage,
+  });
 };
 
 const removeOneImage = async (req, res) => {
