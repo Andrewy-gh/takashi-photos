@@ -16,8 +16,7 @@ const requestLogger = (req, res, next) => {
 const verifyJWT = (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
   if (!authHeader?.startsWith('Bearer ')) {
-    // return res.sendStatus(401);
-    throw new AppError(401, 'unauthorized App Error Message');
+    throw new AppError(401, 'Unauthorized');
   }
   const token = authHeader.split(' ')[1];
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
@@ -25,8 +24,7 @@ const verifyJWT = (req, res, next) => {
       next(err);
     }
     if (decoded.id !== process.env.ADMIN_ID) {
-      // return res.sendStatus(401);
-      throw new AppError(401, 'unauthorized App Error Message');
+      throw new AppError(401, 'Unauthorized');
     }
     next();
   });
