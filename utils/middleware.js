@@ -48,7 +48,7 @@ const errorHandler = (err, req, res, next) => {
       error: 'token expired',
     });
   } else if (err instanceof AppError) {
-    return res.status(err.statusCode).json({ error: err.message });
+    return res.sendStatus(err.statusCode).json({ error: err.message });
   }
 
   return res.status(500).json({ error: 'Something went wrong' });
