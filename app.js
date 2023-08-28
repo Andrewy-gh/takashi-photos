@@ -4,10 +4,6 @@ require('express-async-errors');
 const app = express();
 const cors = require('cors');
 const corsOptions = require('./utils/corsOptions');
-const loginRouter = require('./controllers/login');
-const cloudinaryRouter = require('./controllers/cloudinary');
-const imageOrderRouter = require('./controllers/imageOrder');
-const userRouter = require('./controllers/user');
 const middleware = require('./utils/middleware');
 const logger = require('./utils/logger');
 const path = require('path');
@@ -26,10 +22,10 @@ app.use(cors(corsOptions));
 app.use(express.static('dist'));
 app.use(express.json());
 
-app.use('/api/cloudinary', cloudinaryRouter);
-app.use('/auth', loginRouter);
-app.use('/user', userRouter);
-app.use('/api/imageOrder', imageOrderRouter);
+app.use('/api/cloudinary', require('./routes/cloudinary'));
+app.use('/auth', require('./routes/auth'));
+app.use('/user', require('./routes/user'));
+app.use('/api/imageOrder', require('./routes/imageOrder'));
 app.use('/api/images', require('./routes/images'));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));

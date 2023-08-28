@@ -1,6 +1,7 @@
 const cloudinary = require('../utils/cloudinary');
 const Image = require('../models/Image');
 const ImageOrder = require('../models/ImageOrder');
+const AppError = require('../utils/AppError');
 
 const getImageOrder = async (req, res) => {
   const images = await ImageOrder.findOne().populate('order', {

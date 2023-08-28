@@ -1,9 +1,8 @@
 const bcrypt = require('bcrypt');
-const userRouter = require('express').Router();
 const User = require('../models/User');
 
 // Send a POST request first to set up your admin
-userRouter.post('/', async (req, res) => {
+const createAdmin = async (req, res) => {
   const { email, password } = req.body;
 
   const existingUser = await User.findOne({ email });
@@ -24,6 +23,6 @@ userRouter.post('/', async (req, res) => {
   const savedUser = await user.save();
 
   res.status(201).json(savedUser);
-});
+};
 
-module.exports = userRouter;
+module.exports = { createAdmin };

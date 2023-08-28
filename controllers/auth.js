@@ -1,19 +1,15 @@
-const loginRouter = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const AppError = require('../utils/AppError');
 
-loginRouter.post('/', async (req, res) => {
+const handleLogin = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   const passwordCorrect =
     user === null ? false : await bcrypt.compare(password, user.passwordHash);
 
   if (!(user && passwordCorrect)) {
-    // return res.status(401).json({
-    //   error: 'invalid email or password',
-    // });
     throw new AppError(401, 'invalid email or password');
   }
 
@@ -26,6 +22,6 @@ loginRouter.post('/', async (req, res) => {
     expiresIn: 60 * 60,
   });
   res.status(200).send(token);
-});
+};
 
-module.exports = loginRouter;
+module.exports = { handleLogin };
