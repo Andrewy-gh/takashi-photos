@@ -1,9 +1,11 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const Config = require('../models/Config');
 
 // Send a POST request first to set up your admin
 const createAdmin = async (req, res) => {
   const { email, password } = req.body;
+  const config = await Config.findOne();
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
