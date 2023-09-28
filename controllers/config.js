@@ -1,4 +1,7 @@
+const bcrypt = require('bcrypt');
 const Config = require('../models/Config');
+const ImageOrder = require('../models/ImageOrder');
+const User = require('../models/User');
 
 const checkAppSetup = async (req, res) => {
   const config = await Config.findOne();
@@ -32,21 +35,43 @@ const createAdmin = async (req, res) => {
     });
   }
 
+  if (!config.adminCreated) {
+    config.adminCreated = true;
+    await config.save();
+  }
+
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
-
   const user = new User({
     email,
     passwordHash,
+    role: 'admin',
   });
 
   const savedUser = await user.save();
-
   res.status(201).json(savedUser);
+};
+
+const createImageOrder = async (req, res) => {
+  const config = await Config.findOne({});
+  console.log('====================================');
+  console.log(config);
+  console.log('====================================');
+  if (!config?.imageOrderCreated) {
+    config.imageOrderCreated = true;
+    await config.save();
+    const imageOrder = new ImageOrder({});
+    await imageOrder.save();
+    res.status(201).json(imageOrder);
+    console.log('====================================');
+    console.log('image order created');
+    console.log('====================================');
+  }
 };
 
 module.exports = {
   checkAppSetup,
   checkAdminPresence,
   createAdmin,
+  createImageOrder,
 };
