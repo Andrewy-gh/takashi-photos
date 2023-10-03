@@ -1,14 +1,13 @@
-const bcrypt = require("bcrypt");
-const Config = require("../models/Config");
-const ImageOrder = require("../models/ImageOrder");
-const User = require("../models/User");
+const bcrypt = require('bcrypt');
+const Config = require('../models/Config');
+const User = require('../models/User');
 
 const checkAdminPresence = async (req, res) => {
   const config = await Config.findOne({});
   if (!config?.adminCreated) {
-    return res.status(200).json({ status: "admin not present" });
+    return res.status(200).json({ status: 'admin not present' });
   }
-  res.status(200).json({ status: "admin created" });
+  res.status(200).json({ status: 'admin is already present' });
 };
 
 const createAdmin = async (req, res) => {
@@ -23,7 +22,7 @@ const createAdmin = async (req, res) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(400).json({
-      error: "email must be unique",
+      error: 'email must be unique',
     });
   }
 
@@ -32,7 +31,7 @@ const createAdmin = async (req, res) => {
   const user = new User({
     email,
     passwordHash,
-    role: "admin",
+    role: 'admin',
   });
 
   const savedUser = await user.save();
