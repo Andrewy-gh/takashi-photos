@@ -27,8 +27,6 @@ app.use(express.json());
 app.use('/api/cloudinary', require('./routes/cloudinary'));
 app.use('/auth', require('./routes/auth'));
 app.use('/api/config', require('./routes/config'));
-app.use('/api/user', require('./routes/user'));
-app.use('/api/imageOrder', require('./routes/imageOrder'));
 app.use('/api/images', require('./routes/images'));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
