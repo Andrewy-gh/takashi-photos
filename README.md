@@ -2,7 +2,7 @@
 
 Portfolio web page for an international photographer. Backend server code for the portfolio full stack app.
 
-**Link to full stack repo:** https://github.com/Andrewyithub/takashi-portfolio-full-stack
+**Link to full stack repo:** https://github.com/Andrewy-gh/takashi-portfolio-full-stack
 
 **Link to live site:** https://takashi-photos.fly.dev
 
