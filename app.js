@@ -11,7 +11,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(config.MONGODB_URI)
   .then(() => {
     logger.info('connected to MongoDB');
   })

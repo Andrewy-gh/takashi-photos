@@ -1,5 +1,13 @@
+require('dotenv').config();
 const Config = require('../models/Config');
 const ImageOrder = require('../models/ImageOrder');
+
+const PORT = process.env.PORT;
+
+const MONGODB_URI =
+  process.env.NODE_ENV === 'test'
+    ? process.env.TEST_MONGODB_URI
+    : process.env.MONGODB_URI;
 
 let appInitialized = false;
 
@@ -17,5 +25,7 @@ const initializeApp = async () => {
 };
 
 module.exports = {
+  MONGODB_URI,
+  PORT,
   initializeApp,
 };

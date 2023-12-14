@@ -14,16 +14,17 @@ const createAdmin = async (req, res) => {
   const { email, password } = req.body;
   const config = await Config.findOne();
 
-  if (!config.adminCreated) {
-    config.adminCreated = true;
-    await config.save();
-  }
-
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(400).json({
       error: 'email must be unique',
     });
+  }
+
+  if (!config.adminCreated) {
+    const newConfig = new Config();
+    newConfig.adminCreated = true;
+    await newConfig.save();
   }
 
   const saltRounds = 10;
