@@ -21,10 +21,9 @@ const createAdmin = async (req, res) => {
     });
   }
 
-  if (!config.adminCreated) {
-    const newConfig = new Config();
-    newConfig.adminCreated = true;
-    await newConfig.save();
+  if (config && !config.adminCreated) {
+    config.adminCreated = true;
+    await config.save();
   }
 
   const saltRounds = 10;

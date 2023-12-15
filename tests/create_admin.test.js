@@ -1,6 +1,6 @@
 const express = require('express');
 const request = require('supertest');
-const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 const { createAdmin } = require('../controllers/config'); // Adjust the path accordingly
 const Config = require('../models/Config'); // Adjust the path accordingly
 const User = require('../models/User'); // Adjust the path accordingly
@@ -15,7 +15,14 @@ describe('createAdmin', () => {
   });
 
   test('Admin creation success', async () => {
-    Config.findOne.mockResolvedValue({ adminCreated: false });
+    Config.findOne = jest.fn().mockImplementation(() => ({
+      save: () =>
+        jest.fn().mockResolvedValue({
+          _id: new mongoose.Types.ObjectId(),
+          imageOrderCreated: true,
+          adminCreated: false,
+        }),
+    }));
     User.findOne.mockResolvedValue(null);
 
     const app = express();
