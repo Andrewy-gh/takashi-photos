@@ -32,7 +32,6 @@ describe('createAdmin', () => {
     const response = await request(app)
       .post('/api/admin')
       .send({ email: 'admin@example.com', password: 'password123' });
-
     expect(response.status).toBe(201);
     expect(response.body.success).toBe(true);
     expect(response.body.message).toBe('Admin successfully created');

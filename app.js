@@ -18,7 +18,6 @@ mongoose
   .catch((error) => {
     logger.error('error connecting to MongoDB:', error.message);
   });
-
 config.initializeApp();
 app.use(cors(corsOptions));
 app.use(express.static('dist'));

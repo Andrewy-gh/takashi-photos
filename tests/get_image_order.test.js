@@ -1,41 +1,56 @@
-const express = require('express');
-const request = require('supertest');
 const mongoose = require('mongoose');
-const { getImageOrder } = require('../controllers/image'); // Adjust the path accordingly
-const ImageOrder = require('../models/ImageOrder');
+const supertest = require('supertest');
+const app = require('../app');
+const api = supertest(app);
 const Image = require('../models/Image');
+const ImageOrder = require('../models/ImageOrder');
 
-// Mocking the ImageOrder and Image models for testing
-jest.mock('../models/ImageOrder');
-jest.mock('../models/Image');
+const sampleImageOrder = {
+  order: [
+    {
+      title: 'Sample Image 1',
+      url: 'https://example.com/sample-image.jpg',
+      type: 'jpg',
+      cloudinaryId: 'sample-cloudinary-id',
+      createdAt: new Date(),
+    },
+    {
+      title: 'Sample Image 2',
+      url: 'https://example.com/sample-image-2.jpg',
+      type: 'jpg',
+      cloudinaryId: 'sample-cloudinary-id-2',
+      createdAt: new Date(),
+    },
+  ],
+};
+beforeEach(async () => {
+  await ImageOrder.deleteMany({});
+  await Image.deleteMany({});
+  const imageOrder = new ImageOrder();
+  let image = new Image(sampleImageOrder.order[0]);
+  await image.save();
+  imageOrder.order.push(image);
+  image = new Image(sampleImageOrder.order[1]);
+  await image.save();
+  imageOrder.order.push(image);
+  await imageOrder.save();
+});
 
-describe('getImageOrder', () => {
-  test('Returns the Image Order', async () => {
-    // Mock the ImageOrder.findOne to return a sample data
-    const sampleImageOrder = {
-      _id: new mongoose.Types.ObjectId(),
-      order: [
-        {
-          _id: new mongoose.Types.ObjectId(),
-          title: 'Sample Image',
-          url: 'https://example.com/sample-image.jpg',
-          type: 'jpg',
-          cloudinaryId: 'sample-cloudinary-id',
-          createdAt: new Date(),
-        },
-      ],
-    };
-    ImageOrder.findOne.mockResolvedValue(sampleImageOrder);
+test('images are returned as json', async () => {
+  await api.get('/api/images').expect('Content-Type', /application\/json/);
+});
 
-    // Mock the Image.findOne to return the image data
-    Image.findOne.mockResolvedValue(sampleImageOrder.order[0]);
+test('all images are returned', async () => {
+  const res = await api.get('/api/images');
+  expect(res.body).toHaveLength(sampleImageOrder.order.length);
+});
 
-    const app = express();
-    app.get('/api/image-order', getImageOrder);
+test('a specific image title is within the returned images', async () => {
+  const res = await api.get('/api/images');
+  const contents = res.body.map((r) => r.title);
+  expect(contents).toContain('Sample Image 2');
+});
 
-    const response = await request(app).get('/api/image-order');
-
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(sampleImageOrder.order);
-  });
+afterAll(async () => {
+  await mongoose.connection.close();
 });
