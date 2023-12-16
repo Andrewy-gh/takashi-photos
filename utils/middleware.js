@@ -16,7 +16,7 @@ const requestLogger = (req, res, next) => {
 };
 
 const verifyJWT = async (req, res, next) => {
-  const authHeader = req.headers.authorization || req.headers.Authorization;
+  const authHeader = req?.headers?.authorization || req?.headers?.Authorization;
   if (!authHeader?.startsWith('Bearer ')) {
     throw new AppError(401, 'Unauthorized');
   }

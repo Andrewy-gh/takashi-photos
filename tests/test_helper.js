@@ -14,21 +14,18 @@ const sampleImages = [
     url: 'https://example.com/sample-image.jpg',
     type: 'jpg',
     cloudinaryId: 'sample-cloudinary-id',
-    createdAt: new Date(),
   },
   {
     title: 'Sample Image 2',
     url: 'https://example.com/sample-image-2.jpg',
     type: 'jpg',
     cloudinaryId: 'sample-cloudinary-id-2',
-    createdAt: new Date(),
   },
   {
     title: 'Sample Image 3',
     url: 'https://example.com/sample-image-3.jpg',
     type: 'jpg',
     cloudinaryId: 'sample-cloudinary-id-4',
-    createdAt: new Date(),
   },
 ];
 
@@ -38,14 +35,13 @@ const createNewImageOrder = async () => {
   return imageOrder;
 };
 
-const createAndLoginAdmin = async () => {
-  await mongoose.connect(config.MONGODB_URI);
+const createUserAndLogin = async (role) => {
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash('password', saltRounds);
   const user = new User({
     email: 'admin@admin.com',
     passwordHash,
-    role: 'admin',
+    role,
   });
   await user.save();
   const admin = { email: 'admin@admin.com', password: 'password' };
@@ -56,5 +52,5 @@ const createAndLoginAdmin = async () => {
 module.exports = {
   sampleImages,
   createNewImageOrder,
-  createAndLoginAdmin,
+  createUserAndLogin,
 };
