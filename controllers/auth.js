@@ -21,7 +21,7 @@ const handleLogin = async (req, res) => {
   const token = jwt.sign(accessToken, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: 60 * 60,
   });
-  res.status(200).send(token);
+  res.status(200).json(token);
 };
 
 module.exports = { handleLogin };
